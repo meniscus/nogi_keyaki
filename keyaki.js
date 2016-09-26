@@ -27,8 +27,8 @@ var rootUrl = "http://www.keyakizaka46.com";
 var baseUrl = "http://www.keyakizaka46.com/mob/news/diarKijiShw.php?site=k46o&ima=0000&cd=member&id="
 casper.start();
 
-var start_id = 3299; // 56始まりな模様
-var end_id = 3300 // end_idをどうやって決めるか？
+var start_id = 56; // 56始まりな模様
+var end_id = 9999 // end_idをどうやって決めるか？
 
 // 最新のブログIDの取得(終点決定）
 casper.thenOpen("http://www.keyakizaka46.com/mob/news/diarShw.php?site=k46o&ima=0000&cd=member", function() {

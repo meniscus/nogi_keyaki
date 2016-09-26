@@ -124,7 +124,7 @@ for (var name_index = 0; name_index < names.length; name_index++) {
 
 										console.log("file download : " + file_name );
 										this.download(img, imgPath + file_name);
-										console.log(imgPath + file_name);
+//										console.log(imgPath + file_name);
 									});
 								} else {
 									console.log("file exist. skipped : " + file_name);
