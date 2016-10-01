@@ -74,9 +74,11 @@ for (var blog_id = start_id; blog_id <= end_id ; blog_id++) {
 			
 			// ダウンロードする
 			for (var i = 0 ; i < images.length; i++) {
-				var file_name = blog_info.name + blog_info.date + i + ".jpg";
+				// ファイル名は、[名前][日付][blogID(4桁)][通番(2桁)].jpg
+				var file_name = blog_info.name + blog_info.date +
+								("00" + blogid).slice(-4) + ("0" + i).slice(-2) + ".jpg";
 				if (!fs.exists(imgPath + file_name)) {
-					console.log("file download : " + images[i]);
+					console.log("file download : " + images[i] + " as " + imgPath + file_name);
 					this.download(rootUrl + images[i], imgPath + file_name);
 				} else {
 					console.log("file exist. skipped : " + file_name);
