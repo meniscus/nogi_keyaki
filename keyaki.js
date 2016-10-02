@@ -11,6 +11,7 @@ Array.prototype.getLastVal = function (){ return this[this.length -1];}
 // 日次でzip作りたい -> zip.js / JSzip.js / シェルで頑張る(一番かんたん)
 // ブログにデコメ素材があったらそれも拾ってしまう
 //                -> gifは除外する？
+// NotFoundのときの処理
 //
 
 var casper = require('casper').create({
@@ -27,8 +28,10 @@ var rootUrl = "http://www.keyakizaka46.com";
 var baseUrl = "http://www.keyakizaka46.com/mob/news/diarKijiShw.php?site=k46o&ima=0000&cd=member&id="
 casper.start();
 
-var start_id = 56; // 56始まりな模様
-var end_id = 9999 // end_idをどうやって決めるか？
+// var start_id = 56; // 56始まりな模様
+// var end_id = 9999;
+var start_id = 3237;
+var end_id = 3237;
 
 // 最新のブログIDの取得(終点決定）
 casper.thenOpen("http://www.keyakizaka46.com/mob/news/diarShw.php?site=k46o&ima=0000&cd=member", function() {
@@ -74,14 +77,29 @@ for (var blog_id = start_id; blog_id <= end_id ; blog_id++) {
 			
 			// ダウンロードする
 			for (var i = 0 ; i < images.length; i++) {
+				var url = "";
+				// http or httpsから始まる場合は、フルパスで取得するようにする
+				if (images[i].search(/^http/) == -1 ) {
+					console.log("search result -1");
+					url = rootUrl + images[i];
+				} else {
+					console.log("search result NOT -1");
+					url = images[i];
+				}
+				console.log("download url : " + url);
+
 				// ファイル名は、[名前][日付][blogID(4桁)][通番(2桁)].jpg
 				var file_name = blog_info.name + blog_info.date +
 								("00" + blogid).slice(-4) + ("0" + i).slice(-2) + ".jpg";
 				if (!fs.exists(imgPath + file_name)) {
 					console.log("file download : " + images[i] + " as " + imgPath + file_name);
-					this.download(rootUrl + images[i], imgPath + file_name);
+					console.log("download uri : " + url);
+					this.download(url, imgPath + file_name);
 				} else {
 					console.log("file exist. skipped : " + file_name);
+
+					// TODO debug
+					this.download(url, imgPath + file_name);
 				}
 			}
  
